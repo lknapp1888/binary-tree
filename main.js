@@ -7,8 +7,46 @@ const Node = function (value = null, leftChild = null, rightChild = null) {
     };
   };
 
-  const Tree = function (arr) {
+  Node.prototype.updateLeftChild = function (val) {
+    this.leftChild = val;
+  }
+  Node.prototype.updateRightChild = function (val) {
+    this.rightChild = val;
+  }
+  Node.prototype.changeVal = function (val) {
+    this.value = val;
+  }
 
+  const Tree = function (arr) {
+    this.tree = buildTree(arr);
+
+    this.insert = function (num) {
+      if (!this.tree.value) {return this.tree.value = num}
+      let prev = this.tree;
+      let node = this.tree;
+      while (node !== null) {
+        if (num === node.value) {
+          return alert('duplicate numbers not allowed')
+        }
+        if (num < node.value) {
+          prev = node;
+          node = node.leftChild;
+        }
+        else {
+          prev = node;
+          node = node.rightChild;
+        }
+      }
+      console.log(prev)
+      console.log(node)
+       if (prev.value < num) {
+        prev.updateRightChild(buildTree([num]));
+       }
+       else {
+        prev.updateLeftChild(buildTree([num]));
+       }
+       prettyPrint(this.tree)
+     }
   };
 
   const buildTree = function (arr) {
@@ -32,6 +70,7 @@ const Node = function (value = null, leftChild = null, rightChild = null) {
     }
   }
 
-// prettyPrint(buildTree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28]))
-// console.log(buildTree([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]))
-prettyPrint(buildTree([1,2,3,4,5,6,7]))
+
+const newTree = new Tree([1,3,4,5,6,7, 8,9,10,11,13,14,15,16,17,18,19,20])
+prettyPrint(newTree.tree)
+newTree.insert(12)
