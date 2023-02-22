@@ -18,7 +18,8 @@ Node.prototype.changeVal = function (val) {
 };
 
 const Tree = function (arr) {
-  this.tree = buildTree(arr);
+  this.tree = buildTree(mergeSort(arr));
+  this.queue = [];
 
   this.insert = function (num) {
     if (!this.tree.value) {
@@ -130,10 +131,28 @@ const Tree = function (arr) {
     if (node === null ){return 'number is not in tree'}
     return node;
   }
+
+  this.returnArr = function (node = this.tree, arr = [node.value]) {
+    if (node === null) return arr;
+    else {
+      if (node.rightChild === null) {
+        return this.returnArr(node.rightChild, [...arr])
+      }
+      if (node.leftChild === null) {
+        return this.returnArr(node.leftChild, [...arr, node.rightChild.value])
+      }
+      return mergeSort(arrMerge(this.returnArr(node.leftChild, [...arr, node.leftChild.value, node.rightChild.value]), this.returnArr(node.rightChild, [])))
+    }
+  }
+
+  this.levelOrder = function (cb) {
+    const arr = this.returnArr();
+    arr.map(e => { cb(e)
+    });
+  }
 };
 
-const buildTree = function (arr) {
-  // sort
+const buildTree = function (arr = mergeSort(arr)) {
   //remove duplicates
   if (arr.length === 0) return null;
   const end = arr.length - 1;
@@ -147,6 +166,45 @@ const buildTree = function (arr) {
   return newNode;
 };
 
+const mergeSort = function (arr) {
+  if (arr.length === 0) return;
+  if (arr.length === 1) return arr;
+  else {
+    const left = mergeSort(arr.slice(0, Math.floor(arr.length / 2)));
+    const right = mergeSort(arr.slice(Math.floor(arr.length / 2), arr.length));
+    return arrMerge(mergeSort(left), mergeSort(right));
+  }
+};
+
+const arrMerge = function (arrOne, arrTwo) {
+  let arr = [];
+  let mergeLen = arrOne.length + arrTwo.length;
+  for (i = 0; i < mergeLen; i++) {
+    if (!arrOne[0] && !arrTwo[0]) break;
+    if (arrOne[0] < arrTwo[0]) {
+      arr.push(arrOne.shift());
+      continue;
+    }
+    if (arrOne[0] > arrTwo[0]) {
+      arr.push(arrTwo.shift());
+      continue;
+    }
+    if (!arrOne[0] && arrTwo[0] !== undefined) {
+      arr.push(arrTwo.shift());
+      continue;
+    }
+    if (!arrTwo[0] && arrOne[0] !== undefined) {
+      arr.push(arrOne.shift());
+      continue;
+    }
+    if (arrOne[0] === arrTwo[0]) {
+      arr.push(arrOne.shift());
+    }
+  }
+  return arr;
+};
+
+
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node.rightChild !== null) {
     prettyPrint(node.rightChild, `${prefix}${isLeft ? "│   " : "    "}`, false);
@@ -157,12 +215,21 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
+
+/** tests **/
+
 const newTree = new Tree([
-  1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+  1, 2, 12, 13, 14, 15, 16, 3, 4, 5, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22,
   23, 24, 25, 26, 27,
 ]);
 // prettyPrint(newTree.tree);
 // newTree.deleteNode(8);
 prettyPrint(newTree.tree);
 
-console.log(newTree.find(90))
+console.log(newTree.returnArr())
+
+newTree.levelOrder(testCallback)
+
+function testCallback (val) {
+  console.log(`I am number ${val}`)
+} 
