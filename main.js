@@ -7,11 +7,11 @@ const Node = function (value = null, leftChild = null, rightChild = null) {
   };
 };
 
-Node.prototype.updateLeftChild = function (val) {
-  this.leftChild = val;
-};
 Node.prototype.updateRightChild = function (val) {
   this.rightChild = val;
+};
+Node.prototype.updateLeftChild = function (val) {
+  this.leftChild = val;
 };
 Node.prototype.changeVal = function (val) {
   this.value = val;
@@ -110,6 +110,26 @@ const Tree = function (arr) {
     console.log(curr.rightChild);
     prev.leftChild = curr.rightChild;
   };
+
+  this.find = function (val) {
+    let node = this.tree;
+    if (val === node.value) {return node}
+    while (node !== null) {
+      if (val < node.value) {
+        node = node.leftChild;
+        continue;
+      }
+      if (val > node.value) {
+        node = node.rightChild;
+        continue;
+      }
+      if (val === node.value) {
+        return node;
+      }
+    }
+    if (node === null ){return 'number is not in tree'}
+    return node;
+  }
 };
 
 const buildTree = function (arr) {
@@ -141,6 +161,8 @@ const newTree = new Tree([
   1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
   23, 24, 25, 26, 27,
 ]);
+// prettyPrint(newTree.tree);
+// newTree.deleteNode(8);
 prettyPrint(newTree.tree);
-newTree.deleteNode(8);
-prettyPrint(newTree.tree);
+
+console.log(newTree.find(90))
