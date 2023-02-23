@@ -121,34 +121,25 @@ export const Tree = function (arr) {
     return node;
   };
 
-  this.returnArr = function (node = this.tree, arr = [node.value]) {
-    if (node === null) return arr;
-    else {
-      if (node.rightChild === null) {
-        return this.returnArr(node.rightChild, [...arr]);
+  this.levelOrder = function (cb = null, node = this.tree) {
+    let arr = [node];
+    let stack = [node.value];
+    while (arr.length > 0) {
+        if (arr[0].leftChild !== null) {
+          stack.push(arr[0].leftChild.value)
+          arr.push(arr[0].leftChild)
+        }
+        if (arr[0].rightChild !== null) {
+          stack.push(arr[0].rightChild.value)
+          arr.push(arr[0].rightChild)
+        }
+        arr.shift()
       }
-      if (node.leftChild === null) {
-        return this.returnArr(node.leftChild, [...arr, node.rightChild.value]);
+      if (cb === null) {
+        return stack;
       }
-      return mergeSort(
-        arrMerge(
-          this.returnArr(node.leftChild, [
-            ...arr,
-            node.leftChild.value,
-            node.rightChild.value,
-          ]),
-          this.returnArr(node.rightChild, [])
-        )
-      );
-    }
-  };
-
-  this.levelOrder = function (cb) {
-    const arr = this.returnArr();
-    arr.map((e) => {
-      cb(e);
-    });
-  };
+      stack.map((e) => {cb(e)});
+    };
 
   this.preorder = function (cb = null, node = this.tree) {
     let array = []
@@ -183,6 +174,25 @@ export const Tree = function (arr) {
       }
     }
     postorderRecursive(node, cb)
+    if (!cb) {
+      return array;
+    }
+  };
+
+  this.inorder = function (cb = null, node = this.tree) {
+    let array = []
+    const inorderRecursive = function (node, cb) {
+      if (node === null) {return};
+      inorderRecursive(node.leftChild, cb)
+      if (!cb) {
+        array.push(node.value)
+      }
+      else {
+        cb(node)
+      }
+      inorderRecursive(node.rightChild, cb)
+    }
+    inorderRecursive(node, cb)
     if (!cb) {
       return array;
     }

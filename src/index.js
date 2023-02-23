@@ -7,16 +7,17 @@ import { prettyPrint } from "./utility";
 /** tests **/
 
 const newTree = new Tree([
-  1, 2, 12, 13, 14, 15, 16, 3, 4, 5, 6, 7, 8
+  1, 2, 3, 4, 5, 6, 7, 8,9,10,11,12
 ]);
 
 prettyPrint(newTree.tree);
 
-newTree.postorder(testCallback)
+// newTree.inorder(testCallback)
 // console.log(newTree.returnArr());
 
-// newTree.levelOrder(testCallback);
+console.log(newTree.levelOrder());
+newTree.levelOrder(testCallback)
 
 function testCallback(val) {
-  console.log(`I am number ${val.value}`);
+  console.log(`I am number ${val}`);
 }
