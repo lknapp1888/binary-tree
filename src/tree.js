@@ -150,9 +150,12 @@ export const Tree = function (arr) {
     });
   };
 
-//   this.inorder = function (cb) {
-//     //
-//   }
+  this.preorder = function (cb, node = this.tree) {
+    if (node === null) return;
+    cb(node)
+    this.preorder(cb, node.leftChild)
+    this.preorder(cb, node.rightChild)
+  }
 };
 
 const buildTree = function (arr = mergeSort(arr)) {
