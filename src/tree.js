@@ -1,23 +1,8 @@
-const Node = function (value = null, leftChild = null, rightChild = null) {
-  this.value = value;
-  this.leftChild = leftChild;
-  this.rightChild = rightChild;
-  this.changeVal = (val) => {
-    this.value = val;
-  };
-};
+import { Node } from "./node";
+import { mergeSort, prettyPrint, arrMerge } from "./utility";
 
-Node.prototype.updateRightChild = function (val) {
-  this.rightChild = val;
-};
-Node.prototype.updateLeftChild = function (val) {
-  this.leftChild = val;
-};
-Node.prototype.changeVal = function (val) {
-  this.value = val;
-};
 
-const Tree = function (arr) {
+export const Tree = function (arr) {
   this.tree = buildTree(mergeSort(arr));
   this.queue = [];
 
@@ -114,7 +99,9 @@ const Tree = function (arr) {
 
   this.find = function (val) {
     let node = this.tree;
-    if (val === node.value) {return node}
+    if (val === node.value) {
+      return node;
+    }
     while (node !== null) {
       if (val < node.value) {
         node = node.leftChild;
@@ -128,108 +115,56 @@ const Tree = function (arr) {
         return node;
       }
     }
-    if (node === null ){return 'number is not in tree'}
+    if (node === null) {
+      return "number is not in tree";
+    }
     return node;
-  }
+  };
 
   this.returnArr = function (node = this.tree, arr = [node.value]) {
     if (node === null) return arr;
     else {
       if (node.rightChild === null) {
-        return this.returnArr(node.rightChild, [...arr])
+        return this.returnArr(node.rightChild, [...arr]);
       }
       if (node.leftChild === null) {
-        return this.returnArr(node.leftChild, [...arr, node.rightChild.value])
+        return this.returnArr(node.leftChild, [...arr, node.rightChild.value]);
       }
-      return mergeSort(arrMerge(this.returnArr(node.leftChild, [...arr, node.leftChild.value, node.rightChild.value]), this.returnArr(node.rightChild, [])))
+      return mergeSort(
+        arrMerge(
+          this.returnArr(node.leftChild, [
+            ...arr,
+            node.leftChild.value,
+            node.rightChild.value,
+          ]),
+          this.returnArr(node.rightChild, [])
+        )
+      );
     }
-  }
+  };
 
   this.levelOrder = function (cb) {
     const arr = this.returnArr();
-    arr.map(e => { cb(e)
+    arr.map((e) => {
+      cb(e);
     });
-  }
+  };
+
+//   this.inorder = function (cb) {
+//     //
+//   }
 };
 
 const buildTree = function (arr = mergeSort(arr)) {
-  //remove duplicates
-  if (arr.length === 0) return null;
-  const end = arr.length - 1;
-  const mid = (0 + end) / 2;
-  const root = arr[Math.floor(mid)];
-  const newNode = new Node(
-    root,
-    buildTree(arr.slice(0, mid)),
-    buildTree(arr.slice(mid + 1, arr.length))
-  );
-  return newNode;
-};
-
-const mergeSort = function (arr) {
-  if (arr.length === 0) return;
-  if (arr.length === 1) return arr;
-  else {
-    const left = mergeSort(arr.slice(0, Math.floor(arr.length / 2)));
-    const right = mergeSort(arr.slice(Math.floor(arr.length / 2), arr.length));
-    return arrMerge(mergeSort(left), mergeSort(right));
-  }
-};
-
-const arrMerge = function (arrOne, arrTwo) {
-  let arr = [];
-  let mergeLen = arrOne.length + arrTwo.length;
-  for (i = 0; i < mergeLen; i++) {
-    if (!arrOne[0] && !arrTwo[0]) break;
-    if (arrOne[0] < arrTwo[0]) {
-      arr.push(arrOne.shift());
-      continue;
-    }
-    if (arrOne[0] > arrTwo[0]) {
-      arr.push(arrTwo.shift());
-      continue;
-    }
-    if (!arrOne[0] && arrTwo[0] !== undefined) {
-      arr.push(arrTwo.shift());
-      continue;
-    }
-    if (!arrTwo[0] && arrOne[0] !== undefined) {
-      arr.push(arrOne.shift());
-      continue;
-    }
-    if (arrOne[0] === arrTwo[0]) {
-      arr.push(arrOne.shift());
-    }
-  }
-  return arr;
-};
-
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node.rightChild !== null) {
-    prettyPrint(node.rightChild, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
-  if (node.leftChild !== null) {
-    prettyPrint(node.leftChild, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-
-/** tests **/
-
-const newTree = new Tree([
-  1, 2, 12, 13, 14, 15, 16, 3, 4, 5, 6, 7, 8, 9, 10, 11, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 27,
-]);
-// prettyPrint(newTree.tree);
-// newTree.deleteNode(8);
-prettyPrint(newTree.tree);
-
-console.log(newTree.returnArr())
-
-newTree.levelOrder(testCallback)
-
-function testCallback (val) {
-  console.log(`I am number ${val}`)
-} 
+    //remove duplicates
+    if (arr.length === 0) return null;
+    const end = arr.length - 1;
+    const mid = (0 + end) / 2;
+    const root = arr[Math.floor(mid)];
+    const newNode = new Node(
+      root,
+      buildTree(arr.slice(0, mid)),
+      buildTree(arr.slice(mid + 1, arr.length))
+    );
+    return newNode;
+  };
