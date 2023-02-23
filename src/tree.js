@@ -150,12 +150,43 @@ export const Tree = function (arr) {
     });
   };
 
-  this.preorder = function (cb, node = this.tree) {
-    if (node === null) return;
-    cb(node)
-    this.preorder(cb, node.leftChild)
-    this.preorder(cb, node.rightChild)
-  }
+  this.preorder = function (cb = null, node = this.tree) {
+    let array = []
+    const preorderRecursive = function (node, cb) {
+      if (node === null) {return};
+      if (!cb) {
+        array.push(node.value)
+      }
+      else {
+        cb(node)
+      }
+      preorderRecursive(node.leftChild, cb)
+      preorderRecursive(node.rightChild, cb)
+    }
+    preorderRecursive(node, cb)
+    if (!cb) {
+      return array;
+    }
+  };
+
+  this.postorder = function (cb = null, node = this.tree) {
+    let array = []
+    const postorderRecursive = function (node, cb) {
+      if (node === null) {return};
+      postorderRecursive(node.leftChild, cb)
+      postorderRecursive(node.rightChild, cb)
+      if (!cb) {
+        array.push(node.value)
+      }
+      else {
+        cb(node)
+      }
+    }
+    postorderRecursive(node, cb)
+    if (!cb) {
+      return array;
+    }
+  };
 };
 
 const buildTree = function (arr = mergeSort(arr)) {

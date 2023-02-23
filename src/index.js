@@ -12,7 +12,7 @@ const newTree = new Tree([
 
 prettyPrint(newTree.tree);
 
-newTree.preorder(testCallback)
+newTree.postorder(testCallback)
 // console.log(newTree.returnArr());
 
 // newTree.levelOrder(testCallback);
