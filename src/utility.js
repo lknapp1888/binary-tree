@@ -45,3 +45,10 @@ export const mergeSort = function (arr) {
       prettyPrint(node.leftChild, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
+
+  export const maximum = function(one, two) {
+    if (one > two) {
+      return one;
+    }
+    return two;
+  }

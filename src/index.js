@@ -15,8 +15,11 @@ prettyPrint(newTree.tree);
 // newTree.inorder(testCallback)
 // console.log(newTree.returnArr());
 
-console.log(newTree.levelOrder());
-newTree.levelOrder(testCallback)
+// console.log(newTree.levelOrder());
+// newTree.levelOrder(testCallback)
+
+console.log(newTree.height())
+console.log(newTree.depth())
 
 function testCallback(val) {
   console.log(`I am number ${val}`);

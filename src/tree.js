@@ -1,5 +1,5 @@
 import { Node } from "./node";
-import { mergeSort, prettyPrint, arrMerge } from "./utility";
+import { mergeSort, prettyPrint, arrMerge, maximum } from "./utility";
 
 
 export const Tree = function (arr) {
@@ -197,7 +197,27 @@ export const Tree = function (arr) {
       return array;
     }
   };
+
+  this.height = function (node = this.tree) {
+    if (node === null) return 0;
+    const leftHeight = this.height(node.leftChild)
+    const rightHeight = this.height(node.rightChild)
+    return maximum(leftHeight, rightHeight) + 1;
+  };
+
+  this.depth = function (node = this.tree, root = this.tree) {
+    let depth = 0
+    let curr = root;
+    const searchVal = node.value;
+    while (curr !== null) {
+      if (curr.value === searchVal) {break}
+      if (searchVal > curr.value) {curr = curr.rightChild}
+      if (searchVal < curr.value) {curr = curr.leftChild}
+      depth++
+    }
+    return depth;
 };
+}
 
 const buildTree = function (arr = mergeSort(arr)) {
     //remove duplicates
