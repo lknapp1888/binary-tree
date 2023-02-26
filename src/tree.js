@@ -1,5 +1,5 @@
 import { Node } from "./node";
-import { mergeSort, prettyPrint, arrMerge, maximum } from "./utility";
+import { mergeSort, prettyPrint, arrMerge, maximum, treeFunc } from "./utility";
 
 
 export const Tree = function (arr) {
@@ -123,22 +123,25 @@ export const Tree = function (arr) {
 
   this.levelOrder = function (cb = null, node = this.tree) {
     let arr = [node];
-    let stack = [node.value];
+    let valStack = [node.value];
+    let nodeStack = [node]
     while (arr.length > 0) {
         if (arr[0].leftChild !== null) {
-          stack.push(arr[0].leftChild.value)
+          valStack.push(arr[0].leftChild.value)
+          nodeStack.push(arr[0].leftChild);
           arr.push(arr[0].leftChild)
         }
         if (arr[0].rightChild !== null) {
-          stack.push(arr[0].rightChild.value)
+          valStack.push(arr[0].rightChild.value)
+          nodeStack.push(arr[0].rightChild);
           arr.push(arr[0].rightChild)
         }
         arr.shift()
       }
       if (cb === null) {
-        return stack;
+        return valStack;
       }
-      stack.map((e) => {cb(e)});
+       return cb(nodeStack)
     };
 
   this.preorder = function (cb = null, node = this.tree) {
@@ -217,7 +220,22 @@ export const Tree = function (arr) {
     }
     return depth;
 };
+
+this.isTreeArrBalanced = function (arr) {
+  //must be an array of tree nodes
+  for (let i = 0; i < arr.length; i++) {
+    if (treeFunc.isNodeBalanced(arr[i]) === false) {
+      return false;
+  }
 }
+return true;
+}
+
+this.isTreeBalanced = function () {
+  return this.levelOrder(this.isTreeArrBalanced);
+}
+}
+
 
 const buildTree = function (arr = mergeSort(arr)) {
     //remove duplicates
@@ -231,4 +249,4 @@ const buildTree = function (arr = mergeSort(arr)) {
       buildTree(arr.slice(mid + 1, arr.length))
     );
     return newNode;
-  };
+  }

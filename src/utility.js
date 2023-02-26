@@ -52,3 +52,24 @@ export const mergeSort = function (arr) {
     }
     return two;
   }
+
+  export const treeFunc = {
+    //'utility' tree functions to avoid scoping issues with 'this'
+    isNodeBalanced: function (node) {
+      const leftHeight = this.height(node.leftChild);
+      const rightHeight = this.height(node.rightChild);
+      if (((leftHeight - rightHeight) < -1) || ((leftHeight - rightHeight) > 1)) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    },
+  
+    height: function (node) {
+      if (node === null) return 0;
+      const leftHeight = this.height(node.leftChild)
+      const rightHeight = this.height(node.rightChild)
+      return maximum(leftHeight, rightHeight) + 1;
+    },
+  }
