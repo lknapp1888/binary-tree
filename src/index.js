@@ -2,13 +2,17 @@ import { Tree } from "./tree";
 import { prettyPrint, randomNumArr } from "./utility";
 
 
+const scriptBtn = document.querySelector('.scriptBtn')
 
+scriptBtn.addEventListener('click', () => {
+    driverScript()
+}, {once : true});
 
 /** tests **/
+const arr = randomNumArr(30, 0, 30)
+const testTree = new Tree(arr);
 
 const driverScript = function () {
-  const arr = randomNumArr(30, 0, 30)
-  const testTree = new Tree(arr);
   prettyPrint(testTree.tree)
   console.log(`Is the tree balanced? ${testTree.isTreeBalanced()}`)
   console.log(`Level order: ${testTree.levelOrder()}`)
@@ -31,4 +35,5 @@ const driverScript = function () {
   console.log(`innorder: ${testTree.inorder()}`)
 }
 
-driverScript()
+
+
