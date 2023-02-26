@@ -24,7 +24,9 @@ prettyPrint(newTree.tree);
 // console.log(newTree.depth())
 
 
-console.log(newTree.isTreeBalanced())
+newTree.rebalance()
+
+prettyPrint(newTree.tree);
 
 // console.log(newTree.levelOrder(newTree.isTreeBalanced))
 

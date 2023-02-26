@@ -234,6 +234,16 @@ return true;
 this.isTreeBalanced = function () {
   return this.levelOrder(this.isTreeArrBalanced);
 }
+
+this.rebalance = function () {
+  if (this.isTreeBalanced) {
+    const treeArr = this.inorder()
+    this.tree = buildTree(treeArr)
+  }
+  else {
+    console.log('tree balanced')
+  }
+}
 }
 
 
