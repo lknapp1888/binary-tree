@@ -51,6 +51,16 @@ export const mergeSort = function (arr) {
       return one;
     }
     return two;
+  };
+
+  export const randomNumArr = function(length, min, max) {
+    let arr = [];
+    for (let i = 0; i < length; i++) {
+      let num = Math.floor(Math.random() * (max - min));
+      num += min;
+      arr.push(num)
+    }
+    return arr;
   }
 
   export const treeFunc = {

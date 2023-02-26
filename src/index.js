@@ -1,43 +1,34 @@
 import { Tree } from "./tree";
-import { prettyPrint } from "./utility";
+import { prettyPrint, randomNumArr } from "./utility";
 
 
 
 
 /** tests **/
 
-const newTree = new Tree([
-  1, 2, 3, 4, 5, 6, 7, 8,9,10
-]);
-
-newTree.insert(11)
-newTree.insert(12)
-prettyPrint(newTree.tree);
-
-// newTree.inorder(testCallback)
-// console.log(newTree.returnArr());
-
-// console.log(newTree.levelOrder());
-// newTree.levelOrder(testCallback)
-
-// console.log(newTree.height())
-// console.log(newTree.depth())
-
-
-newTree.rebalance()
-
-prettyPrint(newTree.tree);
-
-// console.log(newTree.levelOrder(newTree.isTreeBalanced))
-
-// console.log(newTree.treeBalanced())
-
-function testCallback(val) {
-  console.log(`I am number ${val}`);
+const driverScript = function () {
+  const arr = randomNumArr(30, 0, 30)
+  const testTree = new Tree(arr);
+  prettyPrint(testTree.tree)
+  console.log(`Is the tree balanced? ${testTree.isTreeBalanced()}`)
+  console.log(`Level order: ${testTree.levelOrder()}`)
+  console.log(`preorder: ${testTree.preorder()}`)
+  console.log(`postorder: ${testTree.postorder()}`)
+  console.log(`innorder: ${testTree.inorder()}`)
+  console.log('add several > 100 numbers to inbalance tree')
+  testTree.insert(101)
+  testTree.insert(102)
+  testTree.insert(103)
+  testTree.insert(104)
+  testTree.insert(105) 
+  console.log(`Is the tree balanced? ${testTree.isTreeBalanced()}`)
+  console.log('call the rebalance function')
+  testTree.rebalance()
+  console.log(`Is the tree balanced? ${testTree.isTreeBalanced()}`)
+  console.log(`Level order: ${testTree.levelOrder()}`)
+  console.log(`preorder: ${testTree.preorder()}`)
+  console.log(`postorder: ${testTree.postorder()}`)
+  console.log(`innorder: ${testTree.inorder()}`)
 }
 
-function testArrCallback (arr) {
-  for (let i = 0; i < arr.length; i++) {
-    console.log(arr[i].value)
-  }
-}
+driverScript()

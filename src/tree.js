@@ -248,15 +248,15 @@ this.rebalance = function () {
 
 
 const buildTree = function (arr = mergeSort(arr)) {
-    //remove duplicates
-    if (arr.length === 0) return null;
-    const end = arr.length - 1;
+    let array = [...new Set(arr)]
+    if (array.length === 0) return null;
+    const end = array.length - 1;
     const mid = (0 + end) / 2;
-    const root = arr[Math.floor(mid)];
+    const root = array[Math.floor(mid)];
     const newNode = new Node(
       root,
-      buildTree(arr.slice(0, mid)),
-      buildTree(arr.slice(mid + 1, arr.length))
+      buildTree(array.slice(0, mid)),
+      buildTree(array.slice(mid + 1, array.length))
     );
     return newNode;
   }
